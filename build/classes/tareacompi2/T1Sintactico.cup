@@ -1,0 +1,70 @@
+//codigo usuario
+package tareacompi2;
+import java_cup.runtime.Symbol;
+
+//Codigo para el parser, variables, metodos
+parser code
+{:
+    
+    /**private Symbol s;
+    public void syntaxError(Symbol s){
+        this.s = s;
+    }
+    public Symbol getS(Symbol s){
+        return this.s = s;
+    }
+
+    public void setAccion(String tipo,String mensaje,String accion){
+            System.out.println(tipo+"         "+mensaje);
+        }
+
+    public void syntax_error(Symbol s){
+            if(s!=null){
+                //ErrorG e = new ErrorG(s.right,s.left,(String) s.value,"Sintactico","Error Sintaxis token: "+(String) s.value+" ------ Linea: " + (s.right+1) + ",   Columna: " + (s.left+1));
+                //listaErrores.add(e);
+                setAccion("ERROR","Error Sintaxis token: Linea: " + (s.right+1) + ",   Columna: " + (s.left+1) + ",  Simbolo: " + s.value, "");
+            }
+    }**/
+
+:}
+
+//Coidgo para las acciones gramaticales
+
+action code
+{:
+    int bandera = 0;
+    
+    public int convertirNumero(Object o){
+        try {
+		int val = Integer.parseInt((String) o);
+		return val;
+	}catch (ClassCastException ex){
+		int val = (int) o;
+		return val;
+	}
+    }
+:}
+
+//Declaraciones 
+terminal DIGITO;
+
+// declaracion no terminales
+non terminal INICIO, E, T;
+
+
+start with INICIO;
+
+//Reglas Semanticas
+
+
+INICIO ::= E:a {:bandera = 0; System.out.println("El total es: "+a.toString()); :} 
+          |error:e {:parser.syntax_error((Symbol)e);:};
+
+
+E ::=   T:b {: int suma = convertirNumero(b); RESULT = b; :};
+
+T ::=    DIGITO:a T:b {: int d = convertirNumero(a); int o = (int) (d*Math.pow(8,bandera)); bandera++; int suma = o+convertirNumero(b); RESULT = suma; :}
+        |{: RESULT = 0; :};
+
+
+
