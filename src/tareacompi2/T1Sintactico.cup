@@ -57,9 +57,8 @@ start with INICIO;
 //Reglas Semanticas
 
 
-INICIO ::= E:a {:bandera = 0; System.out.println("El total es: "+a.toString()); :} 
+INICIO ::= E:a {:bandera = 0; System.out.println("El Numero Decimal es: "+a.toString()); :} 
           |error:e {:parser.syntax_error((Symbol)e);:};
-
 
 E ::=   T:b {: int suma = convertirNumero(b); RESULT = b; :};
 
